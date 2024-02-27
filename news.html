@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>COVID-19 News</title>
+    <style>
+        .news-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .news-item {
+            width: 30%;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .news-item h2 {
+            margin-top: 0;
+        }
+        .news-item p {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>COVID-19 News</h1>
+    <div id="newsContainer"></div>
+
+    <script>
+        // Fetch COVID-19 news articles
+        fetch('https://newsapi.org/v2/everything?q=COVID-19&apiKey=219d331f1e9f43b79523df90ca21b401')
+            .then(response => response.json())
+            .then(data => {
+                const articles = data.articles;
+
+                // Display news articles on the webpage
+                const newsContainer = document.getElementById('newsContainer');
+                articles.forEach(article => {
+                    const newsItem = document.createElement('div');
+                    newsItem.className = 'news-item';
+
+                    const title = document.createElement('h2');
+                    title.textContent = article.title;
+
+                    const source = document.createElement('p');
+                    source.textContent = `Source: ${article.source.name}`;
+
+                    const publishedAt = document.createElement('p');
+                    publishedAt.textContent = `Published At: ${article.publishedAt}`;
+
+                    const description = document.createElement('p');
+                    description.textContent = article.description;
+
+                    const url = document.createElement('a');
+                    url.href = article.url;
+                    url.textContent = 'Read More';
+
+                    newsItem.appendChild(title);
+                    newsItem.appendChild(source);
+                    newsItem.appendChild(publishedAt);
+                    newsItem.appendChild(description);
+                    newsItem.appendChild(url);
+
+                    newsContainer.appendChild(newsItem);
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    </script>
+</body>
+</html>
+
